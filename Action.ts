@@ -1,3 +1,5 @@
+import { instanceToInstance } from "class-transformer";
+
 export type ActionType = string;
 
 export interface ActionI<T> {
@@ -7,8 +9,18 @@ export interface ActionI<T> {
 }
 
 class Action<T> {
-    private type: ActionType;
+    private readonly type: ActionType;
     private payload: T;
+
+    constructor(type: string) {
+        this.type = type;
+    }
+
+    Payload(payload: T): Action<T> {
+        const clone = instanceToInstance(this);
+        clone.payload = payload;
+        return clone;
+    }
 
     GetPayload(): T {
         return this.payload;
