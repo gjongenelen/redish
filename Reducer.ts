@@ -1,3 +1,4 @@
+import { instanceToInstance } from "class-transformer";
 import { ActionI } from "./Action";
 
 type ReducerCallback<T, R> = ( state: T, payload: R ) => T
@@ -43,7 +44,6 @@ class Reducer<T> implements ReducerInterface<T> {
                 console.error( e )
             }
         }
-
         return origState
     }
 }

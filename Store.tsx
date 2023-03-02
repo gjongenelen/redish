@@ -41,10 +41,14 @@ export class Store {
 
     Dispatch( action: ActionI<any> ) {
         Object.keys( this.reducers ).forEach( name => {
+            let clone = new (this.reducers[ name ].getStateFn());
+            for (let key in this.states[ name ]) {
+                clone[key] = this.states[ name ][key];
+            }
             try {
-                this.states[ name ] = this.reducers[ name ].handler( this.states[ name ], action );
+                this.states[ name ] = this.reducers[ name ].handler( clone, action );
                 if ( this.subscribers[ name ] ) {
-                    Object.values( this.subscribers[ name ] ).forEach( sub => sub( this.states ) );
+                    Object.values( this.subscribers[ name ] ).forEach( sub => sub( this.states[ name ] ) );
                 }
             } catch ( e ) {
                 // console.error( e )
