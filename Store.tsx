@@ -2,7 +2,7 @@ import { instanceToPlain, plainToInstance } from "class-transformer";
 import { ReducerInterface } from "./Reducer";
 import { ActionI } from "./Action";
 
-class Store {
+export class Store {
 
     localStoreKey?: string;
 
@@ -77,4 +77,6 @@ class Store {
     }
 }
 
-export default Store;
+export const createStore = (reducers: { [ name: string ]: ReducerInterface<any> }): Store => {
+    return new Store(reducers)
+}
