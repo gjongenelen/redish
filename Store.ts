@@ -56,7 +56,7 @@ export class Store {
         } )
 
         if ( this.localStoreKey ) {
-            const dump = {};
+            const dump: {[name: string]: any} = {};
             Object.keys(this.states).forEach(name => {
                 dump[name] = instanceToPlain(name)
             })
