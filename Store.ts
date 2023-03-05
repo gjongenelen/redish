@@ -58,7 +58,7 @@ export class Store {
         if ( this.localStoreKey ) {
             const dump: {[name: string]: any} = {};
             Object.keys(this.states).forEach(name => {
-                dump[name] = instanceToPlain(name)
+                dump[name] = instanceToPlain(this.states[name])
             })
             window.localStorage.setItem( this.localStoreKey, JSON.stringify( dump ) )
         }
