@@ -10,4 +10,4 @@ export const useStore = ( name: string, store: Store ) => {
     return state;
 }
 
-export const useStoreFn = ( store: Store ) => ( name: string ) => useStore(name, store);
+export const fnUseStore = ( store: Store ) => ( name: string ) => useStore(name, store);
