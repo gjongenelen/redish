@@ -62,7 +62,7 @@ export class Request<T> extends Action<T> implements ActionI<T> {
 
     call( dispatch: ( action: ActionI<any>, payload?: any ) => void, ...args ) {
         dispatch( new Event<void>( this.REQUEST ).Payload() )
-        return this.fn( args ).then( resp => {
+        return this.fn( ...args ).then( resp => {
             dispatch( new Event<T>( this.SUCCESS ).Payload( resp ) )
             return resp
         } ).catch( e => {
