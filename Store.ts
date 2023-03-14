@@ -21,7 +21,7 @@ export class Store {
 
         if ( window.localStorage.getItem( key ) !== null ) {
             try {
-                const temps = JSON.parse( window.localStorage.getItem( key ) );
+                const temps = JSON.parse( window.localStorage.getItem( key ) ?? "" );
                 Object.keys( temps ).forEach( name => {
                     this.states[ name ] = plainToInstance( this.reducers[ name ].getStateFn(), temps[ name ] )
                 } )

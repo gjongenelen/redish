@@ -10,7 +10,7 @@ export interface ActionI<T> {
 
 class Action<T> {
     protected readonly type: ActionType;
-    private payload: T;
+    private payload!: T;
 
     constructor( type: string ) {
         this.type = type;
@@ -41,7 +41,7 @@ export class Request<T> extends Action<T> implements ActionI<T> {
     private SUCCESS = `${ this.type }_SUCCESS`
     private FAILURE = `${ this.type }_FAILURE`
 
-    private fn: ( ...args ) => Promise<T>;
+    private fn: ( ...args: any[] ) => Promise<T>;
 
     GetRequest(): ActionType {
         return this.REQUEST
