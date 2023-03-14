@@ -39,7 +39,7 @@ export class Store {
         } )
     }
 
-    Dispatch( action: ActionI<any> | Request<any>, ...args ) {
+    Dispatch( action: ActionI<any> | Request<any>, ...args: any[] ): void {
 
         if ( action.hasOwnProperty( "fn" ) ) {
             // @ts-ignore

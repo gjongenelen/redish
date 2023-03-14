@@ -55,12 +55,12 @@ export class Request<T> extends Action<T> implements ActionI<T> {
         return this.FAILURE
     }
 
-    constructor( type: string, fn: ( ...args ) => Promise<T> ) {
+    constructor( type: string, fn: ( ...args: any[] ) => Promise<T> ) {
         super( type );
         this.fn = fn;
     }
 
-    call( dispatch: ( action: ActionI<any>, payload?: any ) => void, ...args ) {
+    call( dispatch: ( action: ActionI<any>, payload?: any ) => void, ...args: any[] ) {
         dispatch( new Event<void>( this.REQUEST ).Payload() )
         return this.fn( ...args ).then( resp => {
             dispatch( new Event<T>( this.SUCCESS ).Payload( resp ) )
