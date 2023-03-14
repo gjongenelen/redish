@@ -6,6 +6,8 @@ export interface ActionI<T> {
     GetType: () => ActionType;
 
     GetPayload: () => T;
+
+    Payload( payload: T ): Action<T>;
 }
 
 class Action<T> {
