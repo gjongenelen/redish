@@ -1,4 +1,5 @@
 import { instanceToPlain, plainToInstance } from "class-transformer";
+import randomUUID from "./helpers/randomUUID";
 import { ActionI, Request } from "./Action";
 import { ReducerInterface } from "./Reducer";
 
@@ -76,7 +77,7 @@ export class Store {
             this.subscribers[ name ] = {};
         }
 
-        const id = crypto.randomUUID()
+        const id = randomUUID()
         this.subscribers[ name ][ id ] = fn;
         return () => {
             delete ( this.subscribers[ name ][ id ] );
