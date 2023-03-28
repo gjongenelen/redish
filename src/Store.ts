@@ -20,13 +20,16 @@ export class Store {
     EnableLocalStorage( key: string ) {
         this.localStoreKey = key;
 
+        // @ts-ignore
         if ( window.localStorage.getItem( key ) !== null ) {
             try {
+                // @ts-ignore
                 const temps = JSON.parse( window.localStorage.getItem( key ) ?? "" );
                 Object.keys( temps ).forEach( name => {
                     this.states[ name ] = plainToInstance( this.reducers[ name ].getStateFn(), temps[ name ] )
                 } )
             } catch ( e ) {
+                // @ts-ignore
                 window.localStorage.removeItem( key )
             }
         }
@@ -67,6 +70,7 @@ export class Store {
                 Object.keys( this.states ).forEach( name => {
                     dump[ name ] = instanceToPlain( this.states[ name ] )
                 } )
+                // @ts-ignore
                 window.localStorage.setItem( this.localStoreKey, JSON.stringify( dump ) )
             }
         }

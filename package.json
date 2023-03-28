@@ -1,15 +1,27 @@
 {
-  "name": "redish",
-  "version": "1.0.0",
+  "name": "@redish/redish",
+  "version": "1.0.0-rev3",
   "description": "",
-  "main": "index.js",
+  "main": "./cjs/index.js",
+  "module": "./esm5/index.js",
+  "es2015": "./esm2015/index.js",
+  "typings": "./types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run build:cjs",
+    "build:es2015": "tsc --project tsconfig.prod.esm2015.json",
+    "build:esm5": "tsc --project tsconfig.prod.esm5.json",
+    "build:cjs": "tsc --project tsconfig.prod.cjs.json",
+    "build:umd": "rollup --config rollup.config.js",
+    "build:types": "tsc --project tsconfig.prod.types.json"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "class-transformer": "^0.5.0",
-    "react": "^16.0.0"
+    "react": "^18",
+    "rollup-plugin-terser": "^7.0.2",
+    "ts-node": "^10.9.1"
   }
 }
