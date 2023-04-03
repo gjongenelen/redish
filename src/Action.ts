@@ -69,6 +69,7 @@ export class Request<T> extends Action<T> implements ActionI<T> {
             return resp
         } ).catch( e => {
             dispatch( new Event<any>( this.FAILURE ).Payload( e ) )
+            return Promise.reject(e)
         } )
     }
 }
