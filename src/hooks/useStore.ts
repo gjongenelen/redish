@@ -5,7 +5,7 @@ export const useStore = ( name: string, store: Store ) => {
     const [ state, setState ] = useState( store.GetState()[ name ] );
 
     store.Subscribe( name, ( state ) => {
-        setState( state[ name ] )
+        setState( state )
     } )
     return state;
 }
