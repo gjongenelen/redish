@@ -2,6 +2,7 @@ import { instanceToPlain, plainToInstance } from "class-transformer";
 import randomUUID from "./helpers/randomUUID";
 import { ActionI, Request } from "./Action";
 import { ReducerInterface } from "./Reducer";
+import {Lock} from "./helpers/lock";
 
 export class Store {
 
@@ -11,10 +12,13 @@ export class Store {
     states: { [ name: string ]: any };
     subscribers: { [ state: string ]: { [ id: string ]: ( ( state: any ) => void ) } };
 
+    lock: Lock;
+
     constructor( reducers: { [ name: string ]: ReducerInterface<any> } ) {
         this.reducers = reducers;
-        this.states = {}
-        this.subscribers = {}
+        this.states = {};
+        this.subscribers = {};
+        this.lock = new Lock();
     }
 
     EnableLocalStorage( key: string ) {
@@ -43,12 +47,11 @@ export class Store {
         } )
     }
 
-    Dispatch( action: ActionI<any> | Request<any>, ...args: any[] ): void {
-
+    async Dispatch ( action: ActionI<any> | Request<any>, ...args: any[] ): Promise<void> {
         if ( action.hasOwnProperty( "fn" ) ) {
-            // @ts-ignore
-            return action.call( this.Dispatch.bind( this ), ...args )
+            return (action as Request<any>).call( this.Dispatch.bind( this ), ...args );
         } else {
+            await this.lock.acquire();
 
             Object.keys( this.reducers ).forEach( name => {
                 let clone = new ( this.reducers[ name ].getStateFn() );
@@ -73,6 +76,8 @@ export class Store {
                 // @ts-ignore
                 window.localStorage.setItem( this.localStoreKey, JSON.stringify( dump ) )
             }
+
+            this.lock.release();
         }
     }
 
