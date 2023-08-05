@@ -1,7 +1,6 @@
-
 export class Lock {
 
-    private readonly queue: (()=>void)[] = [];
+    private readonly queue: (() => void)[] = [];
     private acquired = false;
 
     public async acquire(): Promise<void> {
@@ -15,16 +14,18 @@ export class Lock {
         }
     }
 
-    public async release(): Promise<void> {
-        if (this.queue.length === 0 && this.acquired) {
-            this.acquired = false;
+    public release() {
+        if (!this.acquired) {
+            console.error("Lock is not acquired")
             return;
         }
 
         const continuation = this.queue.shift();
-        return new Promise((res: ()=>void) => {
-            continuation!();
-            res();
-        });
+        if (!continuation) {
+            this.acquired = false;
+            return;
+        }
+
+        continuation();
     }
 }
