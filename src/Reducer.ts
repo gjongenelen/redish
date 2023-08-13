@@ -39,8 +39,11 @@ class Reducer<T> implements ReducerInterface<T> {
         if ( this.handlers[ action.GetType() ] !== undefined ) {
             try {
                 origState = this.handlers[ action.GetType() ]( origState, action.GetPayload() )
-            } catch ( e ) {
-                console.error( e )
+            } catch ( e: any ) {
+                if (!(e instanceof Error)) {
+                    e = new Error(e);
+                }
+                console.error( e.message )
             }
         }
         return origState
