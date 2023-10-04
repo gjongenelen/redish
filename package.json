@@ -1,6 +1,6 @@
 {
   "name": "@redish/redish",
-  "version": "1.0.10",
+  "version": "1.0.11-rc1",
   "description": "",
   "main": "./cjs/index.js",
   "module": "./esm5/index.js",
